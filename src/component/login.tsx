@@ -1,8 +1,6 @@
 
-import { useAccount, useDisconnect, useConnect } from "wagmi";
+import { useAccount } from "wagmi";
 import { useWeb3Modal } from "@web3modal/wagmi/react";
-import { useEffect } from "react";
-import { ethers } from "ethers";
 
 export const Login = () => {
     const { isConnected } = useAccount();
