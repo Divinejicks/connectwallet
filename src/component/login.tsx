@@ -1,7 +1,6 @@
 
 import { useAccount, useWalletClient } from "wagmi";
 import { useWeb3Modal } from "@web3modal/wagmi/react";
-import { ethers } from "ethers";
 
 export const Login = () => {
     const { address } = useAccount();
