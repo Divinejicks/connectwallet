@@ -4,7 +4,7 @@ import { useWeb3Modal } from "@web3modal/wagmi/react";
 import { ethers } from "ethers";
 
 export const Login = () => {
-    const { isConnected, address } = useAccount();
+    const { address } = useAccount();
     const { open } = useWeb3Modal(); // Opens the Web3Modal
 
     const handleConnect = async () => {
