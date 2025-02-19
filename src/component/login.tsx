@@ -1,6 +1,7 @@
 
 import { useAccount, useChainId, useWalletClient, } from "wagmi";
 import { useWeb3Modal } from "@web3modal/wagmi/react";
+import { ethers } from "ethers";
 
 export const Login = () => {
     const { address } = useAccount();
@@ -25,6 +26,10 @@ export const Login = () => {
             }
           const message = "This is a test";
           console.log("chainId", chainId)
+          const provider = new ethers.providers.JsonRpcProvider("https://arb-sepolia.g.alchemy.com/v2/vaD7iWPU9OE4fhHxlrj3sbZG6lieSPmE")
+          const signer = provider.getSigner()
+          console.log("signer", signer)
+          alert("hahah")
           const signature = await walletClient.signMessage({message});
           console.log("Signed Hash:", signature);
         } catch (err) {
