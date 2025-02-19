@@ -1,11 +1,12 @@
 
-import { useAccount, useWalletClient } from "wagmi";
+import { useAccount, useChainId, useWalletClient, } from "wagmi";
 import { useWeb3Modal } from "@web3modal/wagmi/react";
 
 export const Login = () => {
     const { address } = useAccount();
     const { open } = useWeb3Modal(); // Opens the Web3Modal
     const { data: walletClient } = useWalletClient();
+    const chainId = useChainId();
 
     const handleConnect = async () => {
         try {
@@ -19,14 +20,12 @@ export const Login = () => {
     const handleSignMessage = async () => {
         try {
             if (!walletClient) {
-                alert("hah ahah")
                 console.error("No signer available. Please connect a wallet first.");
                 return;
             }
-        alert("teo")
           const message = "This is a test";
+          console.log("chainId", chainId)
           const signature = await walletClient.signMessage({message});
-          alert("4")
           console.log("Signed Hash:", signature);
         } catch (err) {
           console.error("Error signing message:", err);
