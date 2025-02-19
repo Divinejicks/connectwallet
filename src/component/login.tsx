@@ -1,11 +1,12 @@
 
-import { useAccount } from "wagmi";
+import { useAccount, useWalletClient } from "wagmi";
 import { useWeb3Modal } from "@web3modal/wagmi/react";
 import { ethers } from "ethers";
 
 export const Login = () => {
     const { address } = useAccount();
     const { open } = useWeb3Modal(); // Opens the Web3Modal
+    const { data: walletClient } = useWalletClient();
 
     const handleConnect = async () => {
         try {
@@ -18,19 +19,15 @@ export const Login = () => {
 
     const handleSignMessage = async () => {
         try {
-        alert("one")
-        if (!window.ethereum) {
-            alert("i am ")
-            console.error("No wallet detected");
-            return;
-        }
-
+            if (!walletClient) {
+                alert("hah ahah")
+                console.error("No signer available. Please connect a wallet first.");
+                return;
+            }
         alert("teo")
-          const provider = new ethers.providers.Web3Provider(window.ethereum);
-          alert("3")
-          const signer = provider.getSigner();
           const message = "This is a test";
-          const signature = await signer.signMessage(message);
+          const signature = await walletClient.signMessage({message});
+          alert("4")
           console.log("Signed Hash:", signature);
         } catch (err) {
           console.error("Error signing message:", err);

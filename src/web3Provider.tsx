@@ -5,6 +5,10 @@ import { defaultWagmiConfig } from "@web3modal/wagmi/react/config";
 import { Config, WagmiProvider } from "wagmi";
 import { arbitrum, mainnet, arbitrumSepolia, polygonAmoy  } from "wagmi/chains"
 import { ReactNode } from 'react'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+
+// 0. Setup queryClient
+const queryClient = new QueryClient()
 
 // 1. Get projectId from https://cloud.reown.com
 const projectId = '9e817ad8cdde2f3494050cac3e755b60'
@@ -39,7 +43,7 @@ type Props = {
   export function WagmiWrapper({ children }: Props) {
     return (
       <WagmiProvider config={config} reconnectOnMount={false}>
-        {children}
+        <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
       </WagmiProvider>
     );
 }
