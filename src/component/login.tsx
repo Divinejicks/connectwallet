@@ -20,6 +20,7 @@ export const Login = () => {
         try {
         alert("one")
         if (!window.ethereum) {
+            alert("i am ")
             console.error("No wallet detected");
             return;
         }
