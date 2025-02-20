@@ -2,7 +2,7 @@
 import { useAccount, useChainId, useDisconnect, useWalletClient, } from "wagmi";
 import { useWeb3Modal } from "@web3modal/wagmi/react";
 import { ethers } from "ethers";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 export const Login = () => {
     const { address } = useAccount();
@@ -10,11 +10,10 @@ export const Login = () => {
     const { data: walletClient } = useWalletClient();
     const chainId = useChainId();
     const { disconnect } = useDisconnect()
-    const [count, setCount] = useState(0)
 
     useEffect(() => {
         console.log("walletClient", walletClient)
-    }, [address, count])
+    }, [address])
 
     const handleConnect = async () => {
         try {
@@ -32,11 +31,19 @@ export const Login = () => {
                 return;
             }
           const message = "This is a test";
+
+          // to show you how to get the connected chain Id
           console.log("chainId", chainId)
+          console.log("chian Id ", await walletClient.getChainId())
+
+          // To show you how to get a signer, so that you can use to instantiate your contract
           const provider = new ethers.providers.Web3Provider(walletClient.transport)
           const signer = provider.getSigner()
           console.log("signer", signer)
-          console.log("signer hh", await walletClient.getChainId())
+
+
+          // This is to sign a message. 
+          // NOTE: it should be in this format signMessage({message}). What ever you want to sign put it in a message variable
           const signature = await walletClient.signMessage({message});
           console.log("Signed Hash:", signature);
         } catch (err) {
@@ -50,7 +57,6 @@ export const Login = () => {
             <div className="flex flex-col space-y-3">
                 <button onClick={() => disconnect()} className='bg-purple-400 text-white hover:bg-purple-300'>Disconnect wallet {address}</button>
                 <button onClick={() => handleSignMessage()} className='bg-blue-400 text-white hover:bg-purple-300'>Sign Message</button>
-                <button onClick={() => setCount(count + 1)} className='bg-blue-400 text-white hover:bg-purple-300'>Count</button>
             </div>
         </>) : (<>
             <button onClick={() => handleConnect()} className='bg-purple-400 text-white hover:bg-purple-300'>Connect wallet</button>
